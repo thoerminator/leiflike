@@ -26,7 +26,8 @@ const dict = {
     backToTable: "Zurück zum Tisch",
     aboutIntro:
       "Ich bin Leif Thörmer — Grafikdesigner und Fotograf. Ich gestalte Marken, Drucksachen und Illustrationen und begleite Momente mit der Kamera. Am liebsten dort, wo beides zusammenkommt: durchdachtes Design mit Herz und Handschrift.",
-    imprint: "Kontakt",
+    imprint: "Impressum",
+    privacy: "Datenschutz",
     bildung: "Bildung",
     taetigkeit: "Tätigkeit",
     engagement: "Engagement",
@@ -57,7 +58,8 @@ const dict = {
     backToTable: "Back to the table",
     aboutIntro:
       "I'm Leif Thörmer — graphic designer and photographer. I craft brands, print and illustration, and follow moments with my camera. Happiest where both meet: thoughtful design with heart and handwriting.",
-    imprint: "Contact",
+    imprint: "Legal notice",
+    privacy: "Privacy",
     bildung: "Education",
     taetigkeit: "Work",
     engagement: "Engagement",

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { useI18n } from "@/lib/i18n";
@@ -216,6 +217,14 @@ export function AboutContent() {
                 Instagram
               </a>
               <span>{l(profile.city)}</span>
+            </div>
+            <div style={{ marginTop: 16, fontSize: "0.82rem", opacity: 0.75, display: "flex", gap: 18, justifyContent: "center", flexWrap: "wrap" }}>
+              <Link href="/impressum" style={{ color: "#fff" }}>
+                {t("imprint")}
+              </Link>
+              <Link href="/datenschutz" style={{ color: "#fff" }}>
+                {t("privacy")}
+              </Link>
             </div>
           </div>
         </footer>

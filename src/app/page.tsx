@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { BusinessCard } from "@/components/experience/BusinessCard";
 import { SiteNav } from "@/components/SiteNav";
+import { LegalCorner } from "@/components/legal/LegalPage";
 
 // Reine Client-Experience — kein SSR für den Canvas
 const Lichttisch = dynamic(
@@ -30,6 +31,7 @@ export default function Home() {
         }}
       />
       <BusinessCard onIntroDone={() => setIntroDone(true)} />
+      {introDone && !liftoff && <LegalCorner />}
     </main>
   );
 }
