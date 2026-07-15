@@ -13,6 +13,12 @@ services:
     restart: unless-stopped
     expose:
       - "3000"
+    # Container-Logs begrenzen, sonst wächst die Platte still voll
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     # Inhalte + Uploads liegen außerhalb des Containers (überleben jedes Update)
     volumes:
       - leiflike_data:/data
@@ -32,10 +38,17 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
       - caddy_config:/config
+      - caddy_logs:/var/log/caddy
     depends_on:
       - web
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 volumes:
   leiflike_data:
   caddy_data:
   caddy_config:
+  caddy_logs:

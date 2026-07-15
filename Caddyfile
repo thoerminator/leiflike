@@ -1,16 +1,35 @@
 # Domain hier eintragen — Caddy besorgt HTTPS automatisch.
 # Zum lokalen Testen stattdessen:  http://localhost { reverse_proxy web:3000 }
 
-leiflike.de, www.leiflike.de {
+# www leitet auf die Hauptdomain um (eine Adresse, saubere Suchmaschinen-Signale)
+www.leiflike.de {
+	redir https://leiflike.de{uri} permanent
+}
+
+leiflike.de {
 	encode zstd gzip
 
-	# Bilder & Schriften lange cachen (haben stabile Pfade)
-	@static path /images/* /brand/* /_next/static/*
+	# Zugriffs-Logs: 7 Tage aufbewahren — genau das sagt die Datenschutzerklärung zu.
+	log {
+		output file /var/log/caddy/access.log {
+			roll_size 10MiB
+			roll_keep 3
+			roll_keep_for 168h
+		}
+	}
+
+	# Bilder, Schriften und Build-Dateien haben stabile Pfade → lange cachen
+	@static path /images/* /brand/* /_next/static/* /api/uploads/*
 	header @static Cache-Control "public, max-age=31536000, immutable"
 
 	header {
+		# Ein Jahr HTTPS erzwingen
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
 		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
+		# Die Seite braucht weder Kamera noch Mikrofon noch Standort
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()"
 		-Server
 	}
 
