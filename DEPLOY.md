@@ -1,74 +1,152 @@
-# Deployment — Debian-Server
+# Deployment — Schritt für Schritt
 
-## Einmalig einrichten
+Alles, was du brauchst, in der Reihenfolge, in der du es machst.
+
+---
+
+## Vorher: Code auf GitHub bringen
+
+Auf deinem Mac, nach jeder Änderung:
 
 ```bash
-git clone <DEIN-REPO> leiflike && cd leiflike
+cd ~/"LeifLike.de Claudes take"
+git push
+```
 
+> Der Ordner hieß mal „Claude's take". Das Apostroph hat den Build zerlegt —
+> deshalb heißt er jetzt **Claudes take** (ohne Apostroph).
+
+---
+
+## Schritt 1 — Auf dem Server einrichten (einmalig)
+
+```bash
+git clone https://github.com/thoerminator/leiflike.git
+cd leiflike
+```
+
+Zugangsdaten anlegen:
+
+```bash
 cp .env.example .env
-nano .env          # ADMIN_PASSWORD setzen + AUTH_SECRET einfügen
-                   # AUTH_SECRET erzeugen:  openssl rand -base64 32
+openssl rand -base64 32        # Ausgabe kopieren!
+nano .env
+```
 
-nano Caddyfile     # Domain eintragen (steht schon auf leiflike.de)
+In der Datei eintragen:
 
+```
+ADMIN_PASSWORD=dein-eigenes-passwort
+AUTH_SECRET=<die-kopierte-zufallszeichenkette>
+LEIFLIKE_DATA_DIR=/data
+```
+
+Speichern: `Strg+O`, `Enter`, `Strg+X`.
+
+Starten:
+
+```bash
 docker compose up -d --build
 ```
 
-Fertig. Erreichbar auf Port 80/443 — Caddy holt das HTTPS-Zertifikat automatisch,
-sobald die Domain auf den Server zeigt.
+Der erste Build dauert ein paar Minuten. Danach läuft die Seite.
 
-## Router & DNS
+---
 
-1. **Portfreigabe** im Router: extern `80` und `443` → interne IP des Servers, gleiche Ports.
-2. **DNS** beim Registrar:
+## Schritt 2 — Erreichbarkeit prüfen (VOR dem DNS)
+
+```bash
+curl -4 ifconfig.me
+```
+
+Vergleiche die Ausgabe mit der öffentlichen IP im Router-Menü.
+
+- **Gleich?** → Alles gut, weiter mit Schritt 3.
+- **Verschieden / keine Ausgabe?** → Ihr hängt hinter DS-Lite (kein eigenes
+  IPv4). Portfreigabe funktioniert dann **nicht**. Sag Bescheid, dann bauen wir
+  auf einen Cloudflare Tunnel um.
+
+---
+
+## Schritt 3 — Router und DNS
+
+1. **Router:** Portfreigabe `80` und `443` → interne IP des Servers, gleiche Ports.
+2. **DNS beim Registrar:**
    - `A`-Record `leiflike.de` → eure öffentliche IPv4
    - `A`-Record `www` → dieselbe IP
-3. **Dynamische IP?** DynDNS im Router aktivieren (z. B. deSEC, duckdns) und beim
-   Registrar einen `CNAME` auf den DynDNS-Namen setzen — statt des A-Records.
+3. **Dynamische IP?** DynDNS im Router aktivieren (z. B. deSEC oder duckdns) und
+   beim Registrar statt des A-Records einen `CNAME` auf den DynDNS-Namen setzen.
 
-Öffentliche IP prüfen: `curl -4 ifconfig.me` auf dem Server.
-Stimmt sie **nicht** mit der IP im Router-Menü überein, hängt ihr hinter DS-Lite/CGNAT —
-dann ist keine Portfreigabe möglich und ein Cloudflare Tunnel wäre der Weg.
+Sobald die Domain zeigt, holt Caddy das HTTPS-Zertifikat von allein.
+`www.leiflike.de` leitet automatisch auf `leiflike.de` um.
+
+---
+
+## Schritt 4 — Läuft es?
+
+```bash
+curl -I https://leiflike.de          # sollte "HTTP/2 200" zeigen
+docker compose ps                    # beide Container "Up"
+docker compose logs -f web           # Live-Logs, beenden mit Strg+C
+```
+
+Dann im Browser: `https://leiflike.de/admin` → mit `ADMIN_PASSWORD` anmelden.
+
+---
 
 ## Alltag
 
 | Was | Befehl |
 | --- | --- |
-| Update einspielen | `git pull && docker compose up -d --build` |
+| **Neue Version einspielen** | `./update.sh` |
+| Inhalte sichern | `./backup.sh` |
 | Logs ansehen | `docker compose logs -f web` |
 | Neustart | `docker compose restart` |
 | Stoppen | `docker compose down` |
 
-## Inhalte & Sicherung
+`./update.sh` macht alles auf einmal: von GitHub holen → Inhalte sichern → neu
+bauen → prüfen, ob die Seite antwortet → aufräumen. Antwortet sie nicht, zeigt
+das Script die Logs, statt still kaputtzugehen.
 
-Alles Redaktionelle liegt im Volume `leiflike_data`, **nicht** im Container —
-Updates löschen also nichts.
+---
 
-- `content.json` — Projekte, CV, Profil, Notizen, Einstellungen
-- `uploads/` — die im Admin hochgeladenen Bilder (WebP)
+## Inhalte pflegen
 
-Sichern:
+Über `https://leiflike.de/admin` — **nicht** über GitHub. Änderungen sind sofort
+für alle Besucher live. Der Code kommt von GitHub, die Inhalte aus dem Volume.
+Beides ist getrennt, deshalb löscht ein Update nie deine Texte oder Bilder.
+
+---
+
+## Sicherung & Wiederherstellung
+
+Inhalte und Uploads liegen im Volume `leiflike_data`, nicht im Container.
 
 ```bash
-docker run --rm -v leiflike_leiflike_data:/data -v "$PWD":/backup alpine \
-  tar czf /backup/leiflike-backup-$(date +%F).tar.gz -C /data .
+./backup.sh                    # legt backups/leiflike-<datum>.tar.gz an
+```
+
+Automatisch täglich um 3 Uhr:
+
+```bash
+crontab -e
+# folgende Zeile anfügen (Pfad anpassen):
+0 3 * * * cd /pfad/zu/leiflike && ./backup.sh >> backups/cron.log 2>&1
 ```
 
 Zurückspielen:
 
 ```bash
-docker run --rm -v leiflike_leiflike_data:/data -v "$PWD":/backup alpine \
-  tar xzf /backup/leiflike-backup-2026-07-15.tar.gz -C /data
+docker run --rm -v leiflike_leiflike_data:/data -v "$PWD/backups":/backup \
+  alpine tar xzf /backup/leiflike-2026-07-16-0300.tar.gz -C /data
 docker compose restart web
 ```
 
-Zusätzlich gibt es im Admin unter **Daten** einen JSON-Export/-Import.
+Zusätzlich gibt es im Admin unter **Daten** einen JSON-Export.
 
-## Admin
+---
 
-`https://leiflike.de/admin` — oder über den Schlüssel oben rechts auf der Seite.
-Passwort = `ADMIN_PASSWORD` aus der `.env`. Die Sitzung läuft über ein signiertes
-httpOnly-Cookie (30 Tage) und lässt sich nicht fälschen.
+## Passwort ändern
 
-Passwort ändern: `.env` anpassen → `docker compose up -d` (kein Rebuild nötig).
-Wird `AUTH_SECRET` geändert, werden alle bestehenden Sitzungen ungültig.
+`.env` anpassen, dann `docker compose up -d` — kein Rebuild nötig.
+Änderst du `AUTH_SECRET`, werden alle offenen Sitzungen abgemeldet.
