@@ -35,7 +35,8 @@ Navigation oben: **Portfolio | Über mich**, DE/EN-Stempel, Schreibtischlampe = 
 
 ## Admin
 
-`/admin` — Passwort: **unser-projekt**
+`/admin` — oder über den Schlüssel oben rechts. Passwort = `ADMIN_PASSWORD` aus der `.env`
+(lokal ohne `.env`: `unser-projekt`).
 
 - **Projekte**: Reihenfolge per Drag & Drop (= Pfad), Texte DE/EN, Jahr/Kategorie,
   Bilder hochladen (werden client-seitig zu WebP komprimiert), sortieren, löschen
@@ -43,19 +44,27 @@ Navigation oben: **Portfolio | Über mich**, DE/EN-Stempel, Schreibtischlampe = 
 - **Über mich**: Profiltexte, Werkzeuge, kompletter Lebenslauf
 - **Daten**: Export/Import als JSON, Reset auf Seed
 
-Alle Inhalte liegen lokal (localStorage + IndexedDB für Uploads) — keine ENV,
-kein Account nötig. Öffentliche Seiten lesen live aus demselben Store.
+Änderungen speichert der **Server** — jeder Besucher sieht sie sofort. Gespeichert wird
+automatisch (entprellt), der Status steht oben in der Kopfzeile.
 
-## Architektur & Deployment
+## Architektur
 
 - Next.js (App Router) + TypeScript + framer-motion; Design-Tokens 1:1 aus dem
   LeifLike-Design-System-Handoff (`src/app/globals.css`, Fonts/Logos in `public/brand/`).
-- Datenzugriff ausschließlich über `src/lib/store.ts` (useAppData/setData).
-  `src/lib/remote.ts` ist der vorbereitete **Supabase-Adapter**: Keys in `.env.local`
-  setzen, Adapter verdrahten — Oberfläche bleibt unverändert. Bild-Storage ist als
-  eigene Schicht gekapselt und kann später auf **Cloudflare R2** zeigen.
-- Vercel-Deploy: Repo pushen, importieren — läuft ohne weitere Konfiguration
-  (lokaler Datenmodus). Domain später: leiflike.de.
+- **Inhalte:** Datei-Backend statt Datenbank. `content.json` + `uploads/` liegen unter
+  `LEIFLIKE_DATA_DIR` (Docker-Volume `/data`, lokal `.data/`). Schreiben ist atomar.
+- **API:** `GET /api/content` (öffentlich) · `PUT /api/content` (geschützt) ·
+  `POST /api/upload` (geschützt, nimmt nur WebP) · `GET /api/uploads/<id>.webp` ·
+  `/api/auth` (Login/Logout/Status).
+- **Auth:** Passwort aus `ADMIN_PASSWORD`, Sitzung als HMAC-signiertes httpOnly-Cookie
+  (`AUTH_SECRET`). Die Route-Handler sind die Schutzgrenze — die UI ist nur Komfort.
+- **Client:** einziger Zugriffspunkt ist `src/lib/store.ts` (`useAppData` / `setData`).
+  Bilder werden im Browser zu WebP komprimiert (max 1600 px), bevor sie hochgehen.
+
+## Deployment
+
+Siehe **[DEPLOY.md](DEPLOY.md)** — Docker Compose + Caddy (automatisches HTTPS) auf
+dem eigenen Debian-Server. Domain: leiflike.de.
 
 ## Seed-Inhalte
 
