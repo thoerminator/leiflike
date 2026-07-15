@@ -1,0 +1,11 @@
+node_modules
+.next
+out
+.git
+.gitignore
+electron
+dist
+*.md
+.DS_Store
+.env*.local
+.claude

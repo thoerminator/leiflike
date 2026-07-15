@@ -1,0 +1,41 @@
+# LeifLike Design — Self-Hosting auf dem eigenen Debian-Server
+#
+#   docker compose up -d --build
+#
+# Caddy holt und erneuert das TLS-Zertifikat vollautomatisch (Let's Encrypt),
+# sobald die Domain auf diesen Server zeigt und Port 80/443 erreichbar sind.
+
+services:
+  web:
+    build: .
+    image: leiflike:latest
+    container_name: leiflike-web
+    restart: unless-stopped
+    expose:
+      - "3000"
+    # Inhalte + Uploads liegen außerhalb des Containers (überleben jedes Update)
+    volumes:
+      - leiflike_data:/data
+    environment:
+      - LEIFLIKE_DATA_DIR=/data
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:?bitte in .env setzen}
+      - AUTH_SECRET=${AUTH_SECRET:?bitte in .env setzen — openssl rand -base64 32}
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: leiflike-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - web
+
+volumes:
+  leiflike_data:
+  caddy_data:
+  caddy_config:

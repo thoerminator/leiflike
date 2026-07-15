@@ -1,0 +1,335 @@
+{
+ "leiflike": [
+  {
+   "src": "/images/leiflike/1.jpg",
+   "w": 1600,
+   "h": 1054
+  },
+  {
+   "src": "/images/leiflike/2.jpg",
+   "w": 1600,
+   "h": 1062
+  },
+  {
+   "src": "/images/leiflike/3.jpg",
+   "w": 1600,
+   "h": 1069
+  },
+  {
+   "src": "/images/leiflike/4.jpg",
+   "w": 1600,
+   "h": 1069
+  },
+  {
+   "src": "/images/leiflike/5.png",
+   "w": 1600,
+   "h": 1069
+  }
+ ],
+ "abizeitung": [
+  {
+   "src": "/images/abizeitung/1.jpg",
+   "w": 1126,
+   "h": 1600
+  },
+  {
+   "src": "/images/abizeitung/2.jpg",
+   "w": 1131,
+   "h": 1600
+  },
+  {
+   "src": "/images/abizeitung/3.png",
+   "w": 1131,
+   "h": 1600
+  },
+  {
+   "src": "/images/abizeitung/4.jpg",
+   "w": 1506,
+   "h": 1256
+  },
+  {
+   "src": "/images/abizeitung/5.png",
+   "w": 1600,
+   "h": 513
+  },
+  {
+   "src": "/images/abizeitung/6.png",
+   "w": 1126,
+   "h": 1600
+  }
+ ],
+ "anzeigen": [
+  {
+   "src": "/images/anzeigen/1.jpg",
+   "w": 1600,
+   "h": 841
+  },
+  {
+   "src": "/images/anzeigen/2.jpg",
+   "w": 1600,
+   "h": 834
+  },
+  {
+   "src": "/images/anzeigen/3.jpg",
+   "w": 1519,
+   "h": 1128
+  }
+ ],
+ "neffke": [
+  {
+   "src": "/images/neffke/1.jpg",
+   "w": 1600,
+   "h": 1179
+  },
+  {
+   "src": "/images/neffke/2.jpg",
+   "w": 1131,
+   "h": 1600
+  },
+  {
+   "src": "/images/neffke/3.jpg",
+   "w": 900,
+   "h": 1600
+  },
+  {
+   "src": "/images/neffke/4.jpg",
+   "w": 1600,
+   "h": 552
+  }
+ ],
+ "orgelkonzert": [
+  {
+   "src": "/images/orgelkonzert/1.jpg",
+   "w": 1132,
+   "h": 1600
+  },
+  {
+   "src": "/images/orgelkonzert/2.jpg",
+   "w": 1200,
+   "h": 1600
+  },
+  {
+   "src": "/images/orgelkonzert/3.png",
+   "w": 1117,
+   "h": 1600
+  },
+  {
+   "src": "/images/orgelkonzert/4.jpg",
+   "w": 1600,
+   "h": 1117
+  }
+ ],
+ "weihnachtskarten": [
+  {
+   "src": "/images/weihnachtskarten/1.jpg",
+   "w": 1117,
+   "h": 1600
+  },
+  {
+   "src": "/images/weihnachtskarten/2.jpg",
+   "w": 1117,
+   "h": 1600
+  },
+  {
+   "src": "/images/weihnachtskarten/3.jpg",
+   "w": 1600,
+   "h": 1067
+  },
+  {
+   "src": "/images/weihnachtskarten/4.jpg",
+   "w": 1117,
+   "h": 1600
+  }
+ ],
+ "postkarten": [
+  {
+   "src": "/images/postkarten/1.jpg",
+   "w": 1600,
+   "h": 1067
+  },
+  {
+   "src": "/images/postkarten/2.jpg",
+   "w": 1117,
+   "h": 1600
+  },
+  {
+   "src": "/images/postkarten/3.jpg",
+   "w": 1117,
+   "h": 1600
+  }
+ ],
+ "buko": [
+  {
+   "src": "/images/buko/1.jpg",
+   "w": 1600,
+   "h": 1064
+  },
+  {
+   "src": "/images/buko/2.jpg",
+   "w": 1600,
+   "h": 1066
+  },
+  {
+   "src": "/images/buko/3.jpg",
+   "w": 1066,
+   "h": 1599
+  },
+  {
+   "src": "/images/buko/4.jpg",
+   "w": 1600,
+   "h": 1065
+  },
+  {
+   "src": "/images/buko/5.jpg",
+   "w": 1066,
+   "h": 1600
+  },
+  {
+   "src": "/images/buko/6.jpg",
+   "w": 1599,
+   "h": 1066
+  }
+ ],
+ "wintershooting": [
+  {
+   "src": "/images/wintershooting/1.jpg",
+   "w": 1066,
+   "h": 1600
+  },
+  {
+   "src": "/images/wintershooting/2.jpg",
+   "w": 1066,
+   "h": 1600
+  },
+  {
+   "src": "/images/wintershooting/3.jpg",
+   "w": 1600,
+   "h": 1200
+  },
+  {
+   "src": "/images/wintershooting/4.jpg",
+   "w": 1066,
+   "h": 1600
+  },
+  {
+   "src": "/images/wintershooting/5.jpg",
+   "w": 1066,
+   "h": 1600
+  }
+ ],
+ "theater": [
+  {
+   "src": "/images/theater/1.jpg",
+   "w": 1117,
+   "h": 1600
+  },
+  {
+   "src": "/images/theater/2.jpg",
+   "w": 1066,
+   "h": 1599
+  },
+  {
+   "src": "/images/theater/3.jpg",
+   "w": 1066,
+   "h": 1600
+  },
+  {
+   "src": "/images/theater/4.jpg",
+   "w": 1600,
+   "h": 1066
+  },
+  {
+   "src": "/images/theater/5.jpg",
+   "w": 1600,
+   "h": 1066
+  },
+  {
+   "src": "/images/theater/6.jpg",
+   "w": 1600,
+   "h": 1066
+  }
+ ],
+ "abifeier": [
+  {
+   "src": "/images/abifeier/1.jpg",
+   "w": 1066,
+   "h": 1600
+  },
+  {
+   "src": "/images/abifeier/2.jpg",
+   "w": 1600,
+   "h": 1066
+  },
+  {
+   "src": "/images/abifeier/3.jpg",
+   "w": 1600,
+   "h": 1066
+  },
+  {
+   "src": "/images/abifeier/4.jpg",
+   "w": 1066,
+   "h": 1600
+  },
+  {
+   "src": "/images/abifeier/5.jpg",
+   "w": 1066,
+   "h": 1600
+  }
+ ],
+ "cosplay": [
+  {
+   "src": "/images/cosplay/1.jpg",
+   "w": 1600,
+   "h": 1066
+  },
+  {
+   "src": "/images/cosplay/2.jpg",
+   "w": 1600,
+   "h": 1066
+  },
+  {
+   "src": "/images/cosplay/3.jpg",
+   "w": 1600,
+   "h": 1066
+  },
+  {
+   "src": "/images/cosplay/4.jpg",
+   "w": 1600,
+   "h": 1066
+  },
+  {
+   "src": "/images/cosplay/5.jpg",
+   "w": 1600,
+   "h": 1066
+  },
+  {
+   "src": "/images/cosplay/6.jpg",
+   "w": 1600,
+   "h": 1066
+  }
+ ],
+ "mutterkind": [
+  {
+   "src": "/images/mutterkind/1.jpg",
+   "w": 1066,
+   "h": 1600
+  },
+  {
+   "src": "/images/mutterkind/2.jpg",
+   "w": 1066,
+   "h": 1600
+  },
+  {
+   "src": "/images/mutterkind/3.jpg",
+   "w": 1600,
+   "h": 1066
+  }
+ ],
+ "about": [
+  {
+   "src": "/images/about/1.jpg",
+   "w": 1600,
+   "h": 1066
+  }
+ ]
+}

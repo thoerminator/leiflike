@@ -1,0 +1,18 @@
+# Domain hier eintragen — Caddy besorgt HTTPS automatisch.
+# Zum lokalen Testen stattdessen:  http://localhost { reverse_proxy web:3000 }
+
+leiflike.de, www.leiflike.de {
+	encode zstd gzip
+
+	# Bilder & Schriften lange cachen (haben stabile Pfade)
+	@static path /images/* /brand/* /_next/static/*
+	header @static Cache-Control "public, max-age=31536000, immutable"
+
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		-Server
+	}
+
+	reverse_proxy web:3000
+}
